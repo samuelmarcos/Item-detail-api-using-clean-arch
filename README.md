@@ -59,22 +59,209 @@ The project follows Clean Architecture principles with the following layers:
 
 ## API Endpoints
 
-### Get Product Details
+### 1. Listar Todos os Produtos
 ```
-GET /api/v1/products/{id}
+GET /api/v1/item
 ```
-Returns detailed information about a specific product.
 
-**Response Example:**
+Retorna uma lista de todos os produtos cadastrados.
+
+**Resposta de Sucesso (200 OK)**
+```json
+[
+    {
+        "id": "MLB123456",
+        "name": "Samsung Galaxy A55 5G",
+        "description": "Smartphone com alto desempenho",
+        "brand": "Samsung",
+        "model": "Galaxy A55 5G",
+        "color": "Azul escuro",
+        "category": "Celulares",
+        "images": ["https://example.com/img1.jpg"],
+        "price": 439.00,
+        "original_price": 499.00,
+        "discount_percent": 12.0,
+        "stock": 50,
+        "seller": {
+            "name": "Samsung",
+            "type": "Oficial",
+            "reputation": "Ótima",
+            "sales": 5000,
+            "official": true
+        },
+        "warranty": "1 ano de garantia",
+        "payment_options": ["Cartão de crédito", "Boleto"],
+        "specs": {
+            "Tela": "6.6\"",
+            "Memória": "256 GB",
+            "RAM": "8 GB"
+        },
+        "related_products": ["MLB654321", "MLB789012"],
+        "rating": 4.8,
+        "review_count": 769,
+        "free_shipping": true,
+        "purchase_options": ["Novo"],
+        "highlights": ["Mais vendido", "Promoção"],
+        "created_at": "2024-03-14T10:00:00Z",
+        "updated_at": "2024-03-14T10:00:00Z"
+    }
+]
+```
+
+**Resposta de Erro (500 Internal Server Error)**
 ```json
 {
-    "id": "123",
-    "name": "Product Name",
-    "description": "Product Description",
-    "price": 99.99,
-    "category": "Category",
-    "stock": 100
+    "error": "Failed to fetch products"
 }
+```
+
+### 2. Buscar Produto por ID
+```
+GET /api/v1/item/{id}
+```
+
+Retorna os detalhes de um produto específico.
+
+**Parâmetros de URL**
+- `id` (obrigatório): ID do produto (ex: MLB123456)
+
+**Resposta de Sucesso (200 OK)**
+```json
+{
+    "id": "MLB123456",
+    "name": "Samsung Galaxy A55 5G",
+    // ... mesmo formato do item acima ...
+}
+```
+
+**Respostas de Erro**
+- 400 Bad Request
+```json
+{
+    "error": "Product ID is required"
+}
+```
+- 404 Not Found
+```json
+{
+    "error": "Product not found"
+}
+```
+
+### 3. Criar Novo Produto
+```
+POST /api/v1/item
+```
+
+Cria um novo produto no sistema.
+
+**Headers**
+- `Content-Type: application/json`
+
+**Corpo da Requisição**
+```json
+{
+    "id": "MLB123456",           // obrigatório
+    "name": "Samsung Galaxy A55 5G", // obrigatório
+    "description": "Smartphone com alto desempenho",
+    "brand": "Samsung",
+    "model": "Galaxy A55 5G",
+    "color": "Azul escuro",
+    "category": "Celulares",
+    "images": ["https://example.com/img1.jpg"],
+    "price": 439.00,             // obrigatório
+    "original_price": 499.00,
+    "discount_percent": 12.0,
+    "stock": 50,                 // obrigatório
+    "seller": {                  // obrigatório
+        "name": "Samsung",
+        "type": "Oficial",
+        "reputation": "Ótima",
+        "sales": 5000,
+        "official": true
+    },
+    "warranty": "1 ano de garantia",
+    "payment_options": ["Cartão de crédito", "Boleto"],
+    "specs": {
+        "Tela": "6.6\"",
+        "Memória": "256 GB",
+        "RAM": "8 GB"
+    },
+    "related_products": ["MLB654321", "MLB789012"],
+    "rating": 4.8,
+    "review_count": 769,
+    "free_shipping": true,
+    "purchase_options": ["Novo"],
+    "highlights": ["Mais vendido", "Promoção"]
+}
+```
+
+**Resposta de Sucesso (201 Created)**
+```json
+{
+    "id": "MLB123456",
+    "name": "Samsung Galaxy A55 5G",
+    // ... mesmo formato do item criado ...
+}
+```
+
+**Respostas de Erro**
+- 400 Bad Request
+```json
+{
+    "error": "Invalid product data"
+}
+```
+- 500 Internal Server Error
+```json
+{
+    "error": "Failed to create product"
+}
+```
+
+## Campos Obrigatórios
+- `id`: Identificador único do produto
+- `name`: Nome do produto
+- `price`: Preço atual do produto
+- `stock`: Quantidade em estoque
+- `seller`: Informações do vendedor (objeto com campos obrigatórios)
+  - `name`: Nome do vendedor
+  - `type`: Tipo do vendedor
+  - `reputation`: Reputação do vendedor
+  - `sales`: Número de vendas
+  - `official`: Se é vendedor oficial
+
+## Exemplos de Uso
+
+### Usando cURL
+
+1. Listar todos os produtos:
+```bash
+curl http://localhost:8080/api/v1/item
+```
+
+2. Buscar produto específico:
+```bash
+curl http://localhost:8080/api/v1/item/MLB123456
+```
+
+3. Criar novo produto:
+```bash
+curl -X POST http://localhost:8080/api/v1/item \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "MLB123456",
+    "name": "Samsung Galaxy A55 5G",
+    "price": 439.00,
+    "stock": 50,
+    "seller": {
+        "name": "Samsung",
+        "type": "Oficial",
+        "reputation": "Ótima",
+        "sales": 5000,
+        "official": true
+    }
+  }'
 ```
 
 ## Getting Started
