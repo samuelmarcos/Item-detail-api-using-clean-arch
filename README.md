@@ -70,7 +70,8 @@ Retorna uma lista de todos os produtos cadastrados.
 ```json
 [
     {
-        "id": "MLB123456",
+        "id": 1,
+        "product_id": "MLB123456",
         "name": "Samsung Galaxy A55 5G",
         "description": "Smartphone com alto desempenho",
         "brand": "Samsung",
