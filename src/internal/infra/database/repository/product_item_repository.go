@@ -18,6 +18,7 @@ func NewProductItemRepository(db *sql.DB) *ProductItemRepository {
 }
 
 func (r *ProductItemRepository) SaveProductDetail(ctx context.Context, product *entity.ProductDetail) error {
+
 	imagesJSON, err := json.Marshal(product.Images)
 	if err != nil {
 		return err
@@ -56,13 +57,13 @@ func (r *ProductItemRepository) SaveProductDetail(ctx context.Context, product *
 	_, err = r.Db.ExecContext(
 		ctx,
 		`INSERT OR REPLACE INTO product_details (
-			id, name, description, brand, model, color, category,
+			product_id, name, description, brand, model, color, category,
 			images, price, original_price, discount_percent, stock,
 			seller_info, warranty, payment_options, specs,
 			related_products, rating, review_count, free_shipping,
 			purchase_options, highlights, updated_at
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
-		product.ID, product.Name, product.Description, product.Brand,
+		product.ProductID, product.Name, product.Description, product.Brand,
 		product.Model, product.Color, product.Category, imagesJSON,
 		product.Price, product.OriginalPrice, product.DiscountPercent,
 		product.Stock, sellerInfoJSON, product.Warranty, paymentOptionsJSON,
@@ -79,15 +80,15 @@ func (r *ProductItemRepository) GetProductDetail(ctx context.Context, id string)
 
 	err := r.Db.QueryRowContext(
 		ctx,
-		`SELECT id, name, description, brand, model, color, category,
+		`SELECT id, product_id, name, description, brand, model, color, category,
 			images, price, original_price, discount_percent, stock,
 			seller_info, warranty, payment_options, specs,
 			related_products, rating, review_count, free_shipping,
 			purchase_options, highlights, created_at, updated_at
-		FROM product_details WHERE id = ?`,
+		FROM product_details WHERE product_id = ?`,
 		id,
 	).Scan(
-		&product.ID, &product.Name, &product.Description, &product.Brand,
+		&product.ID, &product.ProductID, &product.Name, &product.Description, &product.Brand,
 		&product.Model, &product.Color, &product.Category, &imagesJSON,
 		&product.Price, &product.OriginalPrice, &product.DiscountPercent,
 		&product.Stock, &sellerInfoJSON, &product.Warranty, &paymentOptionsJSON,
@@ -126,7 +127,7 @@ func (r *ProductItemRepository) GetProductDetail(ctx context.Context, id string)
 func (r *ProductItemRepository) GetAllProductDetails(ctx context.Context) ([]*entity.ProductDetail, error) {
 	rows, err := r.Db.QueryContext(
 		ctx,
-		`SELECT id, name, description, brand, model, color, category,
+		`SELECT id, product_id, name, description, brand, model, color, category,
 			images, price, original_price, discount_percent, stock,
 			seller_info, warranty, payment_options, specs,
 			related_products, rating, review_count, free_shipping,
@@ -145,7 +146,7 @@ func (r *ProductItemRepository) GetAllProductDetails(ctx context.Context) ([]*en
 			relatedProductsJSON, purchaseOptionsJSON, highlightsJSON string
 
 		err := rows.Scan(
-			&product.ID, &product.Name, &product.Description, &product.Brand,
+			&product.ID, &product.ProductID, &product.Name, &product.Description, &product.Brand,
 			&product.Model, &product.Color, &product.Category, &imagesJSON,
 			&product.Price, &product.OriginalPrice, &product.DiscountPercent,
 			&product.Stock, &sellerInfoJSON, &product.Warranty, &paymentOptionsJSON,

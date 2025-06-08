@@ -1,6 +1,18 @@
 package entity
 
-import "time"
+import (
+	"errors"
+	"time"
+)
+
+// Erros de validação
+var (
+	ErrInvalidProductID    = errors.New("invalid product ID")
+	ErrInvalidProductName  = errors.New("invalid product name")
+	ErrInvalidProductPrice = errors.New("invalid product price")
+	ErrInvalidProductStock = errors.New("invalid product stock")
+	ErrInvalidSellerName   = errors.New("invalid seller name")
+)
 
 // Informações do vendedor
 type SellerInfo struct {
@@ -17,7 +29,8 @@ type ProductSpecs struct {
 }
 
 type ProductDetail struct {
-	ID              string       `json:"id"`
+	ID              int64        `json:"id"`         // ID interno auto-incrementado
+	ProductID       string       `json:"product_id"` // ID externo do produto (ex: MLB123456)
 	Name            string       `json:"name"`
 	Description     string       `json:"description"`
 	Brand           string       `json:"brand"`

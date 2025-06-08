@@ -21,7 +21,8 @@ func NewDB() (*DB, error) {
 		context.Background(),
 		`DROP TABLE IF EXISTS product_details;
 		 CREATE TABLE product_details (
-			id TEXT PRIMARY KEY,
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			product_id TEXT UNIQUE NOT NULL,
 			name TEXT NOT NULL,
 			description TEXT,
 			brand TEXT,
