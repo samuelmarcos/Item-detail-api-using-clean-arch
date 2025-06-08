@@ -24,3 +24,5 @@ go.work
 *.swo 
 
 *.exe
+
+.product.db
