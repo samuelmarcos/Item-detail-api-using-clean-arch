@@ -16,7 +16,7 @@ type ProductSpecs struct {
 	Attributes map[string]string `json:"attributes"`
 }
 
-type ProductItem struct {
+type ProductDetail struct {
 	ID              string       `json:"id"`
 	Name            string       `json:"name"`
 	Description     string       `json:"description"`
