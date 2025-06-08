@@ -29,7 +29,7 @@ type WebServer struct {
 func NewWebServer(logger logger.Logger, router *gin.Engine, port string) *WebServer {
 	return &WebServer{
 		Logger:        logger,
-		Router:        gin.Default(),
+		Router:        router,
 		Handlers:      []Handler{},
 		WebServerPort: port,
 	}
@@ -44,7 +44,6 @@ func (w *WebServer) AddHandler(method string, path string, handler gin.HandlerFu
 }
 
 func (w *WebServer) Start() {
-	//w.Router.Use() add logger
 	for _, handler := range w.Handlers {
 		w.Router.Handle(handler.Method, handler.Path, handler.HandlerFunc)
 	}
