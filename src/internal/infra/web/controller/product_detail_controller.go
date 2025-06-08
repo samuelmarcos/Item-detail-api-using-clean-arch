@@ -1,9 +1,9 @@
 package controller
 
 import (
+	"context"
 	"desafio_mercado_livre/src/internal/entity"
 	"desafio_mercado_livre/src/internal/infra/logger"
-	"desafio_mercado_livre/src/internal/usecase"
 	"fmt"
 	"net/http"
 
@@ -14,12 +14,18 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+type ProductDetailUseCase interface {
+	GetProductDetail(ctx context.Context, id string) (*entity.ProductDetail, error)
+	GetAllProductDetails(ctx context.Context) ([]*entity.ProductDetail, error)
+	CreateProductDetail(ctx context.Context, product *entity.ProductDetail) error
+}
+
 type ProductDetailController struct {
-	usecase *usecase.ProductDetailUseCase
+	usecase ProductDetailUseCase
 	logger  logger.Logger
 }
 
-func NewProductDetailController(l logger.Logger, usecase *usecase.ProductDetailUseCase) *ProductDetailController {
+func NewProductDetailController(l logger.Logger, usecase ProductDetailUseCase) *ProductDetailController {
 	return &ProductDetailController{
 		usecase: usecase,
 		logger:  l,
@@ -68,16 +74,15 @@ func (c *ProductDetailController) CreateProductDetail(ctx *gin.Context) {
 
 	if err := c.usecase.CreateProductDetail(ctx, &product); err != nil {
 		switch err {
-		case entity.ErrInvalidProductID:
-			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product ID is required"})
-		case entity.ErrInvalidProductName:
-			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product name is required"})
-		case entity.ErrInvalidProductPrice:
-			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product price must be greater than zero"})
-		case entity.ErrInvalidProductStock:
-			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product stock cannot be negative"})
-		case entity.ErrInvalidSellerName:
-			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Seller name is required"})
+		case entity.ErrInvalidProductID, entity.ErrInvalidProductName, entity.ErrInvalidProductDescription,
+			entity.ErrInvalidProductBrand, entity.ErrInvalidProductModel, entity.ErrInvalidProductColor,
+			entity.ErrInvalidProductCategory, entity.ErrInvalidProductImages, entity.ErrInvalidProductPrice,
+			entity.ErrInvalidProductStock, entity.ErrInvalidSellerName, entity.ErrInvalidSellerType,
+			entity.ErrInvalidSellerReputation, entity.ErrInvalidSellerSales, entity.ErrInvalidWarranty,
+			entity.ErrInvalidPaymentOptions, entity.ErrInvalidSpecs, entity.ErrInvalidRelatedProducts,
+			entity.ErrInvalidRating, entity.ErrInvalidReviewCount, entity.ErrInvalidPurchaseOptions,
+			entity.ErrInvalidHighlights:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
 		default:
 			ctx.JSON(http.StatusInternalServerError, ErrorResponse{Error: "Failed to create product: " + err.Error()})
 		}
