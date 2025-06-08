@@ -1,5 +1,5 @@
 {
-    "id": "MLB123456",
+    "product_id": "MLB123456",
     "name": "Samsung Galaxy A55 5G Dual SIM 256 GB azul escuro 8 GB RAM",
     "description": "Smartphone com alto desempenho, tela grande e excelente câmera.",
     "brand": "Samsung",
@@ -28,13 +28,15 @@
       "Boleto"
     ],
     "specs": {
-      "Tamanho da tela": "6.6\"",
-      "Memória interna": "256 GB",
-      "RAM": "8 GB",
-      "Câmera principal": "50 MP",
-      "Câmera frontal": "32 MP",
-      "NFC": "Sim",
-      "Biometria": "Leitor de digital e reconhecimento facial"
+      "attributes": {
+        "Tamanho da tela": "6.6\"",
+        "Memória interna": "256 GB",
+        "RAM": "8 GB",
+        "Câmera principal": "50 MP",
+        "Câmera frontal": "32 MP",
+        "NFC": "Sim",
+        "Biometria": "Leitor de digital e reconhecimento facial"
+      }
     },
     "related_products": [
       "MLB654321",
