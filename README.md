@@ -61,7 +61,7 @@ The project follows Clean Architecture principles with the following layers:
 
 ### 1. Listar Todos os Produtos
 ```
-GET /api/v1/item
+GET /api/v1/products
 ```
 
 Retorna uma lista de todos os produtos cadastrados.
@@ -118,7 +118,7 @@ Retorna uma lista de todos os produtos cadastrados.
 
 ### 2. Buscar Produto por ID
 ```
-GET /api/v1/item/{id}
+GET /api/v1/products/{id}
 ```
 
 Retorna os detalhes de um produto específico.
@@ -151,7 +151,7 @@ Retorna os detalhes de um produto específico.
 
 ### 3. Criar Novo Produto
 ```
-POST /api/v1/item
+POST /api/v1/products
 ```
 
 Cria um novo produto no sistema.
