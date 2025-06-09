@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890",
+		"name": "Product Detail API",
+		"description": "API para gerenciamento de detalhes de produtos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/item",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "item"]
+				},
+				"description": "Retorna todos os produtos cadastrados"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/item/MLB123456",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "item", "MLB123456"]
+				},
+				"description": "Retorna os detalhes de um produto específico"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"MLB123456\",\n    \"name\": \"Samsung Galaxy A55 5G\",\n    \"description\": \"Smartphone com alto desempenho\",\n    \"brand\": \"Samsung\",\n    \"model\": \"Galaxy A55 5G\",\n    \"color\": \"Azul escuro\",\n    \"category\": \"Celulares\",\n    \"images\": [\n        \"https://example.com/img1.jpg\",\n        \"https://example.com/img2.jpg\"\n    ],\n    \"price\": 439.00,\n    \"original_price\": 499.00,\n    \"discount_percent\": 12.0,\n    \"stock\": 50,\n    \"seller\": {\n        \"name\": \"Samsung\",\n        \"type\": \"Oficial\",\n        \"reputation\": \"Ótima\",\n        \"sales\": 5000,\n        \"official\": true\n    },\n    \"warranty\": \"1 ano de garantia\",\n    \"payment_options\": [\n        \"Cartão de crédito\",\n        \"Boleto\"\n    ],\n    \"specs\": {\n        \"Tela\": \"6.6\\\"\",\n        \"Memória\": \"256 GB\",\n        \"RAM\": \"8 GB\"\n    },\n    \"related_products\": [\n        \"MLB654321\",\n        \"MLB789012\"\n    ],\n    \"rating\": 4.8,\n    \"review_count\": 769,\n    \"free_shipping\": true,\n    \"purchase_options\": [\n        \"Novo\"\n    ],\n    \"highlights\": [\n        \"Mais vendido\",\n        \"Promoção\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/item",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "8080",
+					"path": ["api", "v1", "item"]
+				},
+				"description": "Cria um novo produto"
+			},
+			"response": []
+		}
+	]
+} 
