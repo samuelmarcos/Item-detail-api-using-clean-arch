@@ -283,7 +283,15 @@ cd item-detail-api-using-clean-arch
 go mod download
 ```
 
-3. Run the application:
+### Build and Run
+
+To build and run the application using the provided script:
+```bash
+./build.sh
+```
+This will compile the project and run the generated binary (`bin/app`).
+
+Alternatively, you can run directly:
 ```bash
 go run cmd/api/main.go
 ```
@@ -291,9 +299,30 @@ go run cmd/api/main.go
 The server will start on `http://localhost:8080`
 
 ### Running Tests
+
+To run all unit tests:
+```bash
+go test ./... -v
+```
+
+To run tests with coverage:
 ```bash
 go test ./... -cover
 ```
+
+To generate a coverage report in HTML:
+```bash
+go test ./... -coverprofile=coverage.out
+go tool cover -html=coverage.out -o coverage.html
+```
+
+Or use the helper script:
+```bash
+./test.sh coverage      # Run tests with coverage summary
+./test.sh html          # Generate HTML coverage report
+```
+
+Open `coverage.html` in your browser to view the coverage report.
 
 ## Design Choices
 
