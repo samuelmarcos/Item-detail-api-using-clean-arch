@@ -25,6 +25,27 @@ func (uc *ProductDetailUseCase) GetAllProductDetails(ctx context.Context) ([]*en
 }
 
 func (uc *ProductDetailUseCase) CreateProductDetail(ctx context.Context, product *entity.ProductDetail) error {
+	// Validações
+	if product.ProductID == "" {
+		return entity.ErrInvalidProductID
+	}
+
+	if product.Name == "" {
+		return entity.ErrInvalidProductName
+	}
+
+	if product.Price <= 0 {
+		return entity.ErrInvalidProductPrice
+	}
+
+	if product.Stock < 0 {
+		return entity.ErrInvalidProductStock
+	}
+
+	if product.Seller.Name == "" {
+		return entity.ErrInvalidSellerName
+	}
+
 	now := time.Now()
 	product.CreatedAt = now
 	product.UpdatedAt = now

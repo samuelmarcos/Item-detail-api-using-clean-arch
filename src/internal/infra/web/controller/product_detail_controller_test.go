@@ -178,6 +178,10 @@ func TestGetAllProductDetails(t *testing.T) {
 	})
 
 	t.Run("should return 500 when error occurs", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		mockUseCase.On("GetAllProductDetails", mock.Anything).Return(nil, errors.New("database error"))
 
 		w := httptest.NewRecorder()
@@ -193,12 +197,11 @@ func TestGetAllProductDetails(t *testing.T) {
 }
 
 func TestCreateProductDetail(t *testing.T) {
-	mockUseCase := new(MockUseCase)
-	mockLogger := new(MockLogger)
-	controller := NewProductDetailController(mockLogger, mockUseCase)
-	router := setupTestRouter(controller)
-
 	t.Run("should create product successfully", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(nil)
 		mockLogger.On("Info", mock.Anything, mock.Anything).Return()
@@ -218,6 +221,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when request body is invalid", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest("POST", "/api/v1/products", bytes.NewBufferString("invalid json"))
 		req.Header.Set("Content-Type", "application/json")
@@ -231,6 +238,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when product ID is missing", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		product.ProductID = ""
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(entity.ErrInvalidProductID)
@@ -249,6 +260,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when product name is missing", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		product.Name = ""
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(entity.ErrInvalidProductName)
@@ -267,6 +282,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when product price is invalid", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		product.Price = 0
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(entity.ErrInvalidProductPrice)
@@ -285,6 +304,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when product stock is invalid", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		product.Stock = -1
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(entity.ErrInvalidProductStock)
@@ -303,6 +326,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 400 when seller name is missing", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		product.Seller.Name = ""
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(entity.ErrInvalidSellerName)
@@ -321,6 +348,10 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return 500 when unexpected error occurs", func(t *testing.T) {
+		mockUseCase := new(MockUseCase)
+		mockLogger := new(MockLogger)
+		controller := NewProductDetailController(mockLogger, mockUseCase)
+		router := setupTestRouter(controller)
 		product := createTestProduct()
 		mockUseCase.On("CreateProductDetail", mock.Anything, mock.AnythingOfType("*entity.ProductDetail")).Return(errors.New("unexpected error"))
 
