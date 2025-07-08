@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"desafio_mercado_livre/src/internal/entity"
 	"encoding/json"
+	"product_item_api/src/internal/entity"
 )
 
 type ProductItemRepository struct {

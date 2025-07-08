@@ -2,10 +2,10 @@ package controller
 
 import (
 	"context"
-	"desafio_mercado_livre/src/internal/entity"
-	"desafio_mercado_livre/src/internal/infra/logger"
 	"fmt"
 	"net/http"
+	"product_item_api/src/internal/entity"
+	"product_item_api/src/internal/infra/logger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -108,13 +108,24 @@ func (c *ProductDetailController) CreateProductDetail(ctx *gin.Context) {
 
 	if err := c.usecase.CreateProductDetail(ctx, &product); err != nil {
 		switch err {
-		case entity.ErrInvalidProductID, entity.ErrInvalidProductName, entity.ErrInvalidProductDescription,
-			entity.ErrInvalidProductBrand, entity.ErrInvalidProductModel, entity.ErrInvalidProductColor,
-			entity.ErrInvalidProductCategory, entity.ErrInvalidProductImages, entity.ErrInvalidProductPrice,
-			entity.ErrInvalidProductStock, entity.ErrInvalidSellerName, entity.ErrInvalidSellerType,
-			entity.ErrInvalidSellerReputation, entity.ErrInvalidSellerSales, entity.ErrInvalidWarranty,
-			entity.ErrInvalidPaymentOptions, entity.ErrInvalidSpecs, entity.ErrInvalidRelatedProducts,
-			entity.ErrInvalidRating, entity.ErrInvalidReviewCount, entity.ErrInvalidPurchaseOptions,
+		case entity.ErrInvalidProductID:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product ID is required"})
+		case entity.ErrInvalidProductName:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product name is required"})
+		case entity.ErrInvalidProductPrice:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product price must be greater than zero"})
+		case entity.ErrInvalidProductStock:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Product stock cannot be negative"})
+		case entity.ErrInvalidSellerName:
+			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: "Seller name is required"})
+		case entity.ErrInvalidProductDescription, entity.ErrInvalidProductBrand,
+			entity.ErrInvalidProductModel, entity.ErrInvalidProductColor,
+			entity.ErrInvalidProductCategory, entity.ErrInvalidProductImages,
+			entity.ErrInvalidSellerType, entity.ErrInvalidSellerReputation,
+			entity.ErrInvalidSellerSales, entity.ErrInvalidWarranty,
+			entity.ErrInvalidPaymentOptions, entity.ErrInvalidSpecs,
+			entity.ErrInvalidRelatedProducts, entity.ErrInvalidRating,
+			entity.ErrInvalidReviewCount, entity.ErrInvalidPurchaseOptions,
 			entity.ErrInvalidHighlights:
 			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
 		default:

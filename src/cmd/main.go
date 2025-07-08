@@ -1,14 +1,14 @@
 package main
 
 import (
-	_ "desafio_mercado_livre/src/docs"
-	"desafio_mercado_livre/src/internal/infra/database"
-	"desafio_mercado_livre/src/internal/infra/database/repository"
-	"desafio_mercado_livre/src/internal/infra/logger"
-	gin "desafio_mercado_livre/src/internal/infra/router"
-	"desafio_mercado_livre/src/internal/infra/web/controller"
-	"desafio_mercado_livre/src/internal/infra/web/webserver"
-	"desafio_mercado_livre/src/internal/usecase"
+	_ "product_item_api/src/docs"
+	"product_item_api/src/internal/infra/database"
+	"product_item_api/src/internal/infra/database/repository"
+	"product_item_api/src/internal/infra/logger"
+	gin "product_item_api/src/internal/infra/router"
+	"product_item_api/src/internal/infra/web/controller"
+	"product_item_api/src/internal/infra/web/webserver"
+	"product_item_api/src/internal/usecase"
 )
 
 // @title           Product Detail API

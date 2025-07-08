@@ -11,6 +11,19 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Coverage files
+coverage.out
+coverage.html
+coverage.txt
+*.cover
+*.coverprofile
+
+# Coverage reports directory
+reports/
+
+# Cache directory
+.cache/
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 

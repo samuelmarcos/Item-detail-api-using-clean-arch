@@ -2,11 +2,11 @@ package webserver
 
 import (
 	"context"
-	"desafio_mercado_livre/src/internal/infra/logger"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
+	"product_item_api/src/internal/infra/logger"
 	"syscall"
 	"time"
 

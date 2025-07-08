@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"context"
-	"desafio_mercado_livre/src/internal/entity"
 	"errors"
+	"product_item_api/src/internal/entity"
 	"testing"
 	"time"
 
@@ -128,6 +128,9 @@ func TestGetAllProductDetails(t *testing.T) {
 	})
 
 	t.Run("should return error when database fails", func(t *testing.T) {
+		mockRepo = new(MockProductRepository)
+		useCase = NewProductDetailUseCase(mockRepo)
+
 		mockRepo.On("GetAllProductDetails", ctx).Return(nil, errors.New("database error"))
 
 		result, err := useCase.GetAllProductDetails(ctx)
@@ -194,6 +197,8 @@ func TestCreateProductDetail(t *testing.T) {
 	})
 
 	t.Run("should return error when repository fails", func(t *testing.T) {
+		mockRepo := new(MockProductRepository)
+		useCase := NewProductDetailUseCase(mockRepo)
 		product := createTestProduct()
 		mockRepo.On("SaveProductDetail", ctx, mock.AnythingOfType("*entity.ProductDetail")).Return(errors.New("database error"))
 
