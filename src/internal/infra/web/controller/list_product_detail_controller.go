@@ -45,6 +45,7 @@ func NewListProductDetailController(usecase ListProductDetailUseCase, logger log
 func (c *ListDetailController) GetAllProductDetails(ctx *gin.Context) {
 	products, err := c.usecase.Execute(ctx)
 	if err != nil {
+		c.logger.Info(err.Error())
 		ctx.JSON(http.StatusInternalServerError, ErrorResponse{Error: "Failed to fetch products"})
 		return
 	}

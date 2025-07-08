@@ -43,6 +43,7 @@ func (c *GetProductDetailController) GetProductDetail(ctx *gin.Context) {
 	product, err := c.usecase.Execute(ctx, id)
 	if err != nil {
 		if err == entity.ErrInvalidProductID {
+			c.logger.Info(err.Error())
 			ctx.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
 			return
 		}
