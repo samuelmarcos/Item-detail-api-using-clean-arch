@@ -36,12 +36,19 @@ func main() {
 	logger := logger.NewLogger()
 
 	productRepo := repository.NewProductItemRepository(db.DB)
-	productUseCase := usecase.NewProductDetailUseCase(productRepo)
-	productController := controller.NewProductDetailController(logger, productUseCase)
+
+	createProductUsecase := usecase.NewCreateProductDetailUseCase(productRepo)
+	listProductUsecase := usecase.NewListProductDetailUseCase(productRepo)
+	getProductUsecase := usecase.NewGetProductDetailUseCase(productRepo)
+
+	createProductDetailController := controller.NewCreateProductDetailController(createProductUsecase, logger)
+	listProductDetailController := controller.NewListProductDetailController(listProductUsecase, logger)
+	getProductDetailController := controller.NewGetProductDetailController(getProductUsecase, logger)
+
 	router := gin.NewRouter()
 	server := webserver.NewWebServer(logger, router, ":8080")
-	server.AddHandler("GET", "/api/v1/products", productController.GetAllProductDetails)
-	server.AddHandler("GET", "/api/v1/products/:id", productController.GetProductDetail)
-	server.AddHandler("POST", "/api/v1/products", productController.CreateProductDetail)
+	server.AddHandler("GET", "/api/v1/products", listProductDetailController.GetAllProductDetails)
+	server.AddHandler("GET", "/api/v1/products/:id", getProductDetailController.GetProductDetail)
+	server.AddHandler("POST", "/api/v1/products", createProductDetailController.CreateProductDetail)
 	server.Start()
 }
