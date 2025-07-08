@@ -1,7 +1,7 @@
 # Item Detail API - Clean Architecture Implementation
 
 ## Overview
-This project implements a RESTful API for fetching Mercado Libre item details using Go (Golang) with Clean Architecture principles. The application is designed to provide detailed information about products listed on Mercado Libre, including item specifications, pricing, seller information, and other relevant details. The API follows clean architecture principles to ensure maintainability, testability, and scalability while adhering to best practices in software development.
+This project implements a RESTful API for fetching product item details using Go (Golang) with Clean Architecture principles. The application is designed to provide detailed information about products, including item specifications, pricing, seller information, and other relevant details. The API follows clean architecture principles to ensure maintainability, testability, and scalability while adhering to best practices in software development.
 
 ## Architecture
 
@@ -71,11 +71,11 @@ Retorna uma lista de todos os produtos cadastrados.
 [
     {
         "id": 1,
-        "product_id": "MLB123456",
-        "name": "Samsung Galaxy A55 5G",
+        "product_id": "PROD123456",
+        "name": "Smartphone XYZ",
         "description": "Smartphone com alto desempenho",
-        "brand": "Samsung",
-        "model": "Galaxy A55 5G",
+        "brand": "MarcaGenérica",
+        "model": "XYZ 2024",
         "color": "Azul escuro",
         "category": "Celulares",
         "images": ["https://example.com/img1.jpg"],
@@ -84,7 +84,7 @@ Retorna uma lista de todos os produtos cadastrados.
         "discount_percent": 12.0,
         "stock": 50,
         "seller": {
-            "name": "Samsung",
+            "name": "LojaGenérica",
             "type": "Oficial",
             "reputation": "Ótima",
             "sales": 5000,
@@ -97,7 +97,7 @@ Retorna uma lista de todos os produtos cadastrados.
             "Memória": "256 GB",
             "RAM": "8 GB"
         },
-        "related_products": ["MLB654321", "MLB789012"],
+        "related_products": ["PROD654321", "PROD789012"],
         "rating": 4.8,
         "review_count": 769,
         "free_shipping": true,
@@ -124,13 +124,13 @@ GET /api/v1/products/{id}
 Retorna os detalhes de um produto específico.
 
 **Parâmetros de URL**
-- `id` (obrigatório): ID do produto (ex: MLB123456)
+- `id` (obrigatório): ID do produto (ex: PROD123456)
 
 **Resposta de Sucesso (200 OK)**
 ```json
 {
-    "id": "MLB123456",
-    "name": "Samsung Galaxy A55 5G",
+    "id": "PROD123456",
+    "name": "Smartphone XYZ",
     // ... mesmo formato do item acima ...
 }
 ```
@@ -162,11 +162,11 @@ Cria um novo produto no sistema.
 **Corpo da Requisição**
 ```json
 {
-    "id": "MLB123456",           // obrigatório
-    "name": "Samsung Galaxy A55 5G", // obrigatório
+    "id": "PROD123456",           // obrigatório
+    "name": "Smartphone XYZ", // obrigatório
     "description": "Smartphone com alto desempenho",
-    "brand": "Samsung",
-    "model": "Galaxy A55 5G",
+    "brand": "MarcaGenérica",
+    "model": "XYZ 2024",
     "color": "Azul escuro",
     "category": "Celulares",
     "images": ["https://example.com/img1.jpg"],
@@ -175,7 +175,7 @@ Cria um novo produto no sistema.
     "discount_percent": 12.0,
     "stock": 50,                 // obrigatório
     "seller": {                  // obrigatório
-        "name": "Samsung",
+        "name": "LojaGenérica",
         "type": "Oficial",
         "reputation": "Ótima",
         "sales": 5000,
@@ -188,7 +188,7 @@ Cria um novo produto no sistema.
         "Memória": "256 GB",
         "RAM": "8 GB"
     },
-    "related_products": ["MLB654321", "MLB789012"],
+    "related_products": ["PROD654321", "PROD789012"],
     "rating": 4.8,
     "review_count": 769,
     "free_shipping": true,
@@ -200,8 +200,8 @@ Cria um novo produto no sistema.
 **Resposta de Sucesso (201 Created)**
 ```json
 {
-    "id": "MLB123456",
-    "name": "Samsung Galaxy A55 5G",
+    "id": "PROD123456",
+    "name": "Smartphone XYZ",
     // ... mesmo formato do item criado ...
 }
 ```
@@ -243,7 +243,7 @@ curl http://localhost:8080/api/v1/item
 
 2. Buscar produto específico:
 ```bash
-curl http://localhost:8080/api/v1/item/MLB123456
+curl http://localhost:8080/api/v1/item/PROD123456
 ```
 
 3. Criar novo produto:
@@ -251,12 +251,12 @@ curl http://localhost:8080/api/v1/item/MLB123456
 curl -X POST http://localhost:8080/api/v1/item \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "MLB123456",
-    "name": "Samsung Galaxy A55 5G",
+    "id": "PROD123456",
+    "name": "Smartphone XYZ",
     "price": 439.00,
     "stock": 50,
     "seller": {
-        "name": "Samsung",
+        "name": "LojaGenérica",
         "type": "Oficial",
         "reputation": "Ótima",
         "sales": 5000,

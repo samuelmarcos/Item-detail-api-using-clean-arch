@@ -2,10 +2,10 @@ package controller
 
 import (
 	"context"
-	"desafio_mercado_livre/src/internal/entity"
-	"desafio_mercado_livre/src/internal/infra/logger"
 	"fmt"
 	"net/http"
+	"product_item_api/src/internal/entity"
+	"product_item_api/src/internal/infra/logger"
 
 	"github.com/gin-gonic/gin"
 )

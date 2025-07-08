@@ -3,11 +3,11 @@ package controller
 import (
 	"bytes"
 	"context"
-	"desafio_mercado_livre/src/internal/entity"
 	"encoding/json"
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"product_item_api/src/internal/entity"
 	"testing"
 	"time"
 

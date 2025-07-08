@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"context"
-	"desafio_mercado_livre/src/internal/entity"
 	"errors"
+	"product_item_api/src/internal/entity"
 	"testing"
 	"time"
 

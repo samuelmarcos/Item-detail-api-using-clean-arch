@@ -1,4 +1,4 @@
-module desafio_mercado_livre
+module product_item_api
 
 go 1.23.0
 
