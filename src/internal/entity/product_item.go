@@ -73,6 +73,6 @@ type ProductDetail struct {
 }
 
 func (p *ProductDetail) SetDiscount(discount float64) {
-	newPrice := p.Price * (1 - discount)
+	newPrice := p.Price * (1 - discount/100)
 	p.Price = newPrice
 }
