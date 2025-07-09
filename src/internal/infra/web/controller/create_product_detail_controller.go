@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"product_item_api/src/internal/infra/logger"
@@ -11,13 +10,9 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type CreateProductDetailUseCase interface {
-	Execute(ctx context.Context, input usecase.CreateProductDetailInputDTO) (usecase.CreateProductDetailOutputDTO, error)
-}
-
 var validate = validator.New()
 
-func NewCreateProductDetailController(usecase CreateProductDetailUseCase, logger logger.Logger) *CreateProductDetailController {
+func NewCreateProductDetailController(usecase usecase.CreateProductDetail, logger logger.Logger) *CreateProductDetailController {
 	return &CreateProductDetailController{
 		usecase: usecase,
 		logger:  logger,

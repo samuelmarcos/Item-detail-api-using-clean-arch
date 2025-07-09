@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"product_item_api/src/internal/entity"
@@ -11,11 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GetProductDetailUseCase interface {
-	Execute(ctx context.Context, id string) (usecase.GetProductDetailOutputDTO, error)
-}
-
-func NewGetProductDetailController(usecase GetProductDetailUseCase, logger logger.Logger) *GetProductDetailController {
+func NewGetProductDetailController(usecase usecase.GetProductDetail, logger logger.Logger) *GetProductDetailController {
 	return &GetProductDetailController{
 		usecase: usecase,
 		logger:  logger,

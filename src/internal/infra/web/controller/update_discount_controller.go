@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"product_item_api/src/internal/infra/logger"
@@ -10,11 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UpdateDiscountUseCase interface {
-	Execute(ctx context.Context, input usecase.UpdateDiscountInputDTO) (usecase.UpdateProductDetailOutputDTO, error)
-}
-
-func NewUpdateDiscountController(usecase UpdateDiscountUseCase, logger logger.Logger) *UpdateDiscountController {
+func NewUpdateDiscountController(usecase usecase.UpdateDiscount, logger logger.Logger) *UpdateDiscountController {
 	return &UpdateDiscountController{
 		usecase: usecase,
 		logger:  logger,

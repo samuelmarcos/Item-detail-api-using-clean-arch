@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"product_item_api/src/internal/infra/logger"
@@ -10,11 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ListProductDetailUseCase interface {
-	Execute(ctx context.Context) (usecase.ListProductDetailOutputDTO, error)
-}
-
-func NewListProductDetailController(usecase ListProductDetailUseCase, logger logger.Logger) *ListDetailController {
+func NewListProductDetailController(usecase usecase.ListProductDetail, logger logger.Logger) *ListDetailController {
 	return &ListDetailController{
 		usecase: usecase,
 		logger:  logger,
