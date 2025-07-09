@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"product_item_api/src/internal/entity"
 )
 
@@ -73,6 +74,88 @@ func (r *ProductItemRepository) SaveProductDetail(ctx context.Context, product *
 	return err
 }
 
+func (r *ProductItemRepository) UpdateProductDetail(ctx context.Context, product *entity.ProductDetail) error {
+	// Inicia uma transação
+	tx, err := r.Db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// Verifica se o produto existe
+	var existingID int64
+	err = tx.QueryRowContext(ctx, "SELECT id FROM product_details WHERE product_id = ?", product.ProductID).Scan(&existingID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return fmt.Errorf("product with product_id %s not found", product.ProductID)
+		}
+		return err
+	}
+
+	// Serializa os campos JSON
+	imagesJSON, err := json.Marshal(product.Images)
+	if err != nil {
+		return err
+	}
+
+	sellerInfoJSON, err := json.Marshal(product.Seller)
+	if err != nil {
+		return err
+	}
+
+	paymentOptionsJSON, err := json.Marshal(product.PaymentOptions)
+	if err != nil {
+		return err
+	}
+
+	specsJSON, err := json.Marshal(product.Specs)
+	if err != nil {
+		return err
+	}
+
+	relatedProductsJSON, err := json.Marshal(product.RelatedProducts)
+	if err != nil {
+		return err
+	}
+
+	purchaseOptionsJSON, err := json.Marshal(product.PurchaseOptions)
+	if err != nil {
+		return err
+	}
+
+	highlightsJSON, err := json.Marshal(product.Highlights)
+	if err != nil {
+		return err
+	}
+
+	// Atualiza o produto
+	_, err = tx.ExecContext(
+		ctx,
+		`UPDATE product_details SET 
+			name = ?, description = ?, brand = ?, model = ?, color = ?, category = ?,
+			images = ?, price = ?, original_price = ?, discount_percent = ?, stock = ?,
+			seller_info = ?, warranty = ?, payment_options = ?, specs = ?,
+			related_products = ?, rating = ?, review_count = ?, free_shipping = ?,
+			purchase_options = ?, highlights = ?, updated_at = CURRENT_TIMESTAMP
+		WHERE product_id = ?`,
+		product.Name, product.Description, product.Brand, product.Model, product.Color, product.Category,
+		imagesJSON, product.Price, product.OriginalPrice, product.DiscountPercent, product.Stock,
+		sellerInfoJSON, product.Warranty, paymentOptionsJSON, specsJSON,
+		relatedProductsJSON, product.Rating, product.ReviewCount, product.FreeShipping,
+		purchaseOptionsJSON, highlightsJSON, product.ProductID,
+	)
+	if err != nil {
+		return err
+	}
+
+	// Commit da transação
+	return tx.Commit()
+}
+
 func (r *ProductItemRepository) GetProductDetail(ctx context.Context, id string) (*entity.ProductDetail, error) {
 	var product entity.ProductDetail
 	var imagesJSON, sellerInfoJSON, paymentOptionsJSON, specsJSON,
@@ -87,6 +170,57 @@ func (r *ProductItemRepository) GetProductDetail(ctx context.Context, id string)
 			purchase_options, highlights, created_at, updated_at
 		FROM product_details WHERE product_id = ?`,
 		id,
+	).Scan(
+		&product.ID, &product.ProductID, &product.Name, &product.Description, &product.Brand,
+		&product.Model, &product.Color, &product.Category, &imagesJSON,
+		&product.Price, &product.OriginalPrice, &product.DiscountPercent,
+		&product.Stock, &sellerInfoJSON, &product.Warranty, &paymentOptionsJSON,
+		&specsJSON, &relatedProductsJSON, &product.Rating, &product.ReviewCount,
+		&product.FreeShipping, &purchaseOptionsJSON, &highlightsJSON,
+		&product.CreatedAt, &product.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(imagesJSON), &product.Images); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(sellerInfoJSON), &product.Seller); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(paymentOptionsJSON), &product.PaymentOptions); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(specsJSON), &product.Specs); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(relatedProductsJSON), &product.RelatedProducts); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(purchaseOptionsJSON), &product.PurchaseOptions); err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal([]byte(highlightsJSON), &product.Highlights); err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
+
+func (r *ProductItemRepository) FindByProductID(ctx context.Context, productID string) (*entity.ProductDetail, error) {
+	var product entity.ProductDetail
+	var imagesJSON, sellerInfoJSON, paymentOptionsJSON, specsJSON,
+		relatedProductsJSON, purchaseOptionsJSON, highlightsJSON string
+
+	err := r.Db.QueryRowContext(
+		ctx,
+		`SELECT id, product_id, name, description, brand, model, color, category,
+			images, price, original_price, discount_percent, stock,
+			seller_info, warranty, payment_options, specs,
+			related_products, rating, review_count, free_shipping,
+			purchase_options, highlights, created_at, updated_at
+		FROM product_details WHERE product_id = ?`,
+		productID,
 	).Scan(
 		&product.ID, &product.ProductID, &product.Name, &product.Description, &product.Brand,
 		&product.Model, &product.Color, &product.Category, &imagesJSON,

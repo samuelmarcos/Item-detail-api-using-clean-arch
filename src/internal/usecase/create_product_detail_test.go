@@ -29,12 +29,25 @@ func (m *MockProductRepository) GetProductDetail(ctx context.Context, id string)
 	return args.Get(0).(*entity.ProductDetail), args.Error(1)
 }
 
+func (m *MockProductRepository) FindByProductID(ctx context.Context, productID string) (*entity.ProductDetail, error) {
+	args := m.Called(ctx, productID)
+	if args.Get(0) == nil {
+		return nil, args.Error(1)
+	}
+	return args.Get(0).(*entity.ProductDetail), args.Error(1)
+}
+
 func (m *MockProductRepository) GetAllProductDetails(ctx context.Context) ([]*entity.ProductDetail, error) {
 	args := m.Called(ctx)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
 	}
 	return args.Get(0).([]*entity.ProductDetail), args.Error(1)
+}
+
+func (m *MockProductRepository) UpdateProductDetail(ctx context.Context, product *entity.ProductDetail) error {
+	args := m.Called(ctx, product)
+	return args.Error(0)
 }
 
 func createTestProduct() *entity.ProductDetail {

@@ -71,3 +71,8 @@ type ProductDetail struct {
 	CreatedAt       time.Time    `json:"created_at"`
 	UpdatedAt       time.Time    `json:"updated_at"`
 }
+
+func (p *ProductDetail) SetDiscount(discount float64) {
+	newPrice := p.Price * (1 - discount)
+	p.Price = newPrice
+}
