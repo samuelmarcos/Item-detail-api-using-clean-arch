@@ -17,7 +17,7 @@ type UpdateDiscountUseCase struct {
 
 type UpdateProductDetailOutputDTO entity.ProductDetail
 
-func NewUpdateProductDetail(r entity.ProductDetailRepository) *UpdateDiscountUseCase {
+func NewUpdateDiscount(r entity.ProductDetailRepository) *UpdateDiscountUseCase {
 	return &UpdateDiscountUseCase{
 		Repository: r,
 	}

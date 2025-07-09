@@ -40,15 +40,18 @@ func main() {
 	createProductUsecase := usecase.NewCreateProductDetailUseCase(productRepo)
 	listProductUsecase := usecase.NewListProductDetailUseCase(productRepo)
 	getProductUsecase := usecase.NewGetProductDetailUseCase(productRepo)
+	updateDiscountUsecase := usecase.NewUpdateDiscount(productRepo)
 
 	createProductDetailController := controller.NewCreateProductDetailController(createProductUsecase, logger)
 	listProductDetailController := controller.NewListProductDetailController(listProductUsecase, logger)
 	getProductDetailController := controller.NewGetProductDetailController(getProductUsecase, logger)
+	updateDiscountController := controller.NewUpdateDiscountController(updateDiscountUsecase, logger)
 
 	router := gin.NewRouter()
 	server := webserver.NewWebServer(logger, router, ":8080")
 	server.AddHandler("GET", "/api/v1/products", listProductDetailController.GetAllProductDetails)
 	server.AddHandler("GET", "/api/v1/products/:id", getProductDetailController.GetProductDetail)
 	server.AddHandler("POST", "/api/v1/products", createProductDetailController.CreateProductDetail)
+	server.AddHandler("PUT", "/api/v1/update/discount", updateDiscountController.UpdateDiscount)
 	server.Start()
 }

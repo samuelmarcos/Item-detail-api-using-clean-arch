@@ -20,3 +20,8 @@ type GetProductDetailController struct {
 	usecase GetProductDetailUseCase
 	logger  logger.Logger
 }
+
+type UpdateDiscountController struct {
+	usecase UpdateDiscountUseCase
+	logger  logger.Logger
+}
