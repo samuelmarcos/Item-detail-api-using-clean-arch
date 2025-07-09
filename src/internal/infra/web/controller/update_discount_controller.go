@@ -39,7 +39,7 @@ func (c *UpdateDiscountController) UpdateDiscount(ctx *gin.Context) {
 		return
 	}
 
-	output, err := c.usecase.Execute(ctx, input)
+	output, err := c.usecase.Execute(ctx.Request.Context(), input)
 	if err != nil {
 		c.logger.Error(err.Error())
 		ctx.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error()})
