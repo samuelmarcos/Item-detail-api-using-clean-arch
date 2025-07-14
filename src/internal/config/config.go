@@ -3,11 +3,11 @@ package config
 import "github.com/Netflix/go-env"
 
 type Configuration struct {
-	MYSQL_USER     string `env:"MYSQL_USER"`
-	MYSQL_PASSWORD string `env:"MYSQL_PASSWORD"`
-	MYSQL_HOST     string `env:"MYSQL_HOST"`
-	MYSQL_PORT     string `env:"MYSQL_PORT"`
-	MYSQL_DATABASE string `env:"MYSQL_DATABASE"`
+	DB_USER     string `env:"MYSQL_USER"`
+	DB_PASSWORD string `env:"MYSQL_PASSWORD"`
+	DB_HOST     string `env:"MYSQL_HOST"`
+	DB_PORT     string `env:"MYSQL_PORT"`
+	DB_DATABASE string `env:"MYSQL_DATABASE"`
 }
 
 func Environment() *Configuration {

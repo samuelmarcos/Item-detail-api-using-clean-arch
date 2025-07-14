@@ -31,11 +31,11 @@ func main() {
 
 	cfg := config.Environment()
 	dbConfig := database.DBConfig{
-		User:     cfg.MYSQL_USER,
-		Password: cfg.MYSQL_PASSWORD,
-		Host:     cfg.MYSQL_HOST,
-		Port:     cfg.MYSQL_PORT,
-		Database: cfg.MYSQL_DATABASE,
+		User:     cfg.DB_USER,
+		Password: cfg.DB_PASSWORD,
+		Host:     cfg.DB_HOST,
+		Port:     cfg.DB_PORT,
+		Database: cfg.DB_DATABASE,
 	}
 	// Initialize database
 	db, err := database.NewDB(dbConfig)
