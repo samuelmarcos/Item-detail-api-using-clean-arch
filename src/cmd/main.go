@@ -10,6 +10,7 @@ import (
 	"product_item_api/src/internal/infra/web/controller"
 	"product_item_api/src/internal/infra/web/webserver"
 	"product_item_api/src/internal/usecase"
+	"strconv"
 )
 
 // @title           Product Detail API
@@ -30,11 +31,15 @@ import (
 func main() {
 
 	cfg := config.Environment()
+	port, err := strconv.Atoi(cfg.DB_PORT)
+	if err != nil {
+		panic(err)
+	}
 	dbConfig := database.DBConfig{
 		User:     cfg.DB_USER,
 		Password: cfg.DB_PASSWORD,
 		Host:     cfg.DB_HOST,
-		Port:     cfg.DB_PORT,
+		Port:     port,
 		Database: cfg.DB_DATABASE,
 	}
 	// Initialize database

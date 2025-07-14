@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"product_item_api/src/internal/entity"
 )
 
@@ -23,8 +22,6 @@ func (uc *ListProductDetailUseCase) Execute(ctx context.Context) (ListProductDet
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("details")
-	fmt.Println(detailPtrs)
 	details := make(ListProductDetailOutputDTO, 0, len(detailPtrs))
 	for _, ptr := range detailPtrs {
 		if ptr != nil {

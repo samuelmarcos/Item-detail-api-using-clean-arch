@@ -1,6 +1,8 @@
 package config
 
-import "github.com/Netflix/go-env"
+import (
+	"github.com/Netflix/go-env"
+)
 
 type Configuration struct {
 	DB_USER     string `env:"MYSQL_USER"`

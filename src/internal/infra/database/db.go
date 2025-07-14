@@ -16,25 +16,17 @@ type DBConfig struct {
 	User     string
 	Password string
 	Host     string
-	Port     string
+	Port     int
 	Database string
 }
 
 func NewDB(config DBConfig) (*DB, error) {
-	user := config.User
-	password := config.Password
-	host := config.Host
-	if host == "" {
-		host = "localhost"
-	}
-	port := config.Port
-	if port == "" {
-		port = "3306"
-	}
-	dbName := config.Database
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
+		config.User, config.Password,
+		config.Host, config.Port,
+		config.Database)
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, host, port, dbName)
-	db, err := sql.Open("mysql", dsn)
+	db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		return nil, err
 	}
