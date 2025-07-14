@@ -3,8 +3,10 @@ package database
 import (
 	"context"
 	"database/sql"
+	"fmt"
+	"os"
 
-	_ "modernc.org/sqlite"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type DB struct {
@@ -12,43 +14,25 @@ type DB struct {
 }
 
 func NewDB() (*DB, error) {
-	db, err := sql.Open("sqlite", "product.db")
+	user := os.Getenv("MYSQL_USER")
+	password := os.Getenv("MYSQL_PASSWORD")
+	host := os.Getenv("MYSQL_HOST")
+	if host == "" {
+		host = "localhost"
+	}
+	port := os.Getenv("MYSQL_PORT")
+	if port == "" {
+		port = "3306"
+	}
+	dbName := os.Getenv("MYSQL_DATABASE")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, host, port, dbName)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = db.ExecContext(
-		context.Background(),
-		`DROP TABLE IF EXISTS product_details;
-		 CREATE TABLE product_details (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			product_id TEXT UNIQUE NOT NULL,
-			name TEXT NOT NULL,
-			description TEXT,
-			brand TEXT,
-			model TEXT,
-			color TEXT,
-			category TEXT,
-			images TEXT, -- JSON array of strings
-			price REAL,
-			original_price REAL,
-			discount_percent REAL,
-			stock INTEGER,
-			seller_info TEXT, -- JSON object
-			warranty TEXT,
-			payment_options TEXT, -- JSON array of strings
-			specs TEXT, -- JSON object
-			related_products TEXT, -- JSON array of strings
-			rating REAL,
-			review_count INTEGER,
-			free_shipping BOOLEAN,
-			purchase_options TEXT, -- JSON array of strings
-			highlights TEXT, -- JSON array of strings
-			created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-			updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-		)`,
-	)
-	if err != nil {
+	if err := db.PingContext(context.Background()); err != nil {
 		return nil, err
 	}
 
