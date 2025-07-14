@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -13,18 +12,26 @@ type DB struct {
 	*sql.DB
 }
 
-func NewDB() (*DB, error) {
-	user := os.Getenv("MYSQL_USER")
-	password := os.Getenv("MYSQL_PASSWORD")
-	host := os.Getenv("MYSQL_HOST")
+type DBConfig struct {
+	User     string
+	Password string
+	Host     string
+	Port     string
+	Database string
+}
+
+func NewDB(config DBConfig) (*DB, error) {
+	user := config.User
+	password := config.Password
+	host := config.Host
 	if host == "" {
 		host = "localhost"
 	}
-	port := os.Getenv("MYSQL_PORT")
+	port := config.Port
 	if port == "" {
 		port = "3306"
 	}
-	dbName := os.Getenv("MYSQL_DATABASE")
+	dbName := config.Database
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, host, port, dbName)
 	db, err := sql.Open("mysql", dsn)

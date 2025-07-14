@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "product_item_api/src/docs"
+	"product_item_api/src/internal/config"
 	"product_item_api/src/internal/infra/database"
 	"product_item_api/src/internal/infra/database/repository"
 	"product_item_api/src/internal/infra/logger"
@@ -27,8 +28,17 @@ import (
 // @BasePath  /api/v1
 
 func main() {
+
+	cfg := config.Environment()
+	dbConfig := database.DBConfig{
+		User:     cfg.MYSQL_USER,
+		Password: cfg.MYSQL_PASSWORD,
+		Host:     cfg.MYSQL_HOST,
+		Port:     cfg.MYSQL_PORT,
+		Database: cfg.MYSQL_DATABASE,
+	}
 	// Initialize database
-	db, err := database.NewDB()
+	db, err := database.NewDB(dbConfig)
 	if err != nil {
 		panic(err)
 	}
