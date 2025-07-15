@@ -35,6 +35,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	dbConfig := database.DBConfig{
 		User:     cfg.DB_USER,
 		Password: cfg.DB_PASSWORD,
